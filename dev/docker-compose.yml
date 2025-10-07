@@ -1,0 +1,53 @@
+version: '3'
+services:
+  db:
+    extends:
+      file: docker-compose-sdp-anchor.yml
+      service: db
+    volumes:
+      - postgres-db:/data/postgres
+  sdp-api:
+    extends:
+      file: docker-compose-sdp-anchor.yml
+      service: sdp-api
+    depends_on:
+      db:
+        condition: service_started
+  db-anchor-platform:
+    extends:
+      file: docker-compose-sdp-anchor.yml
+      service: db-anchor-platform
+    depends_on:
+      - sdp-api
+    volumes:
+      - postgres-ap-db:/data/postgres
+  anchor-platform:
+    extends:
+      file: docker-compose-sdp-anchor.yml
+      service: anchor-platform
+    depends_on:
+      - db-anchor-platform
+  sdp-tss:
+    extends:
+      file: docker-compose-tss.yml
+      service: sdp-tss
+    depends_on:
+      - db
+      - sdp-api
+  sdp-frontend:
+    extends:
+      file: docker-compose-frontend.yml
+      service: sdp-frontend
+    depends_on:
+      - db
+      - sdp-api
+  demo-wallet:
+    extends:
+      file: docker-compose-sdp-anchor.yml
+      service: demo-wallet
+
+volumes:
+  postgres-db:
+    driver: local
+  postgres-ap-db:
+    driver: local

@@ -1,0 +1,54 @@
+## Values for running the SDP locally. This is a good starting point for local development.
+## Refer to README.md and values.yaml for more information about the configuration options.
+
+# =========================== START global ========================
+global:
+  ## global.ephemeralDatabase Enables the creation of an ephemeral database for testing purposes.
+  ephemeralDatabase: true
+  ## @param global.autoGenerateSecrets Determines if secrets should be auto-generated.
+  autoGenerateSecrets: true
+  ## global.singleTenantMode Determines if the SDP service is running in single-tenant mode.
+  singleTenantMode: true
+
+# =========================== START sdp ===========================
+sdp:
+  route:
+    schema: "http"
+    domain: "sdp.local"
+    adminDomain: "admin.local"
+  ## Disable the TLS for the SDP ingress
+  ingress:
+    tls: []
+  ## Generate secrets for the SDP
+  kubeSecrets:
+    secretName: sdp
+    create: true
+
+# =========================== START Anchor ========================
+anchorPlatform:
+  route:
+    schema: "http"
+    domain: "ap.local"
+  ## Disable the TLS for the Anchor Platform ingress
+  ingress:
+    tls: []
+  ## Generate secrets for the Anchor Platform
+  kubeSecrets:
+    secretName: sdp-ap
+    create: true
+
+# =========================== START TSS ===========================
+tss:
+  ## Generate secrets for the TSS
+  kubeSecrets:
+    secretName: sdp-tss
+    create: true
+
+# =========================== START Dashboard =====================
+dashboard:
+  route:
+    schema: "http"
+    domain: "dashboard.local"
+  ## Disable the TLS for the Dashboard ingress
+  ingress:
+    tls: []
